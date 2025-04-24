@@ -8,11 +8,11 @@ from pydantic import BaseModel, ValidationError
 import json
 # Add this near the top of your app.py
 # Football Data API Key - ideally this would be in environment variables
-FOOTBALL_API_KEY = "b134a5b6d3e240b4b594c8e5ff9311d0"  # Replace with your actual API key
+FOOTBALL_API_KEY = "ENCRYPT"  # Replace with your actual API key from football-data.org
 FOOTBALL_API_URL = "https://api.football-data.org/v4"
 
 # Add this near the top with your other constants
-ASI1_API_KEY = "sk_21b370999a4e40b79302b09273dd39513b9363905b3844698f8052cfa32672e1"
+ASI1_API_KEY = "ENCRYPT" # REPLACE with API from deltav4/fetch ai
 ASI1_API_URL = "https://api.asi1.ai/v1/chat/completions"
 ASI1_MODEL = "asi1-mini"
 
