@@ -6,12 +6,11 @@ import requests
 import os
 from pydantic import BaseModel, ValidationError
 import json
-# Add this near the top of your app.py
-# Football Data API Key - ideally this would be in environment variables
+
 FOOTBALL_API_KEY = "ENCRYPT"  # Replace with your actual API key from football-data.org
 FOOTBALL_API_URL = "https://api.football-data.org/v4"
 
-# Add this near the top with your other constants
+
 ASI1_API_KEY = "ENCRYPT" # REPLACE with API from deltav4/fetch ai
 ASI1_API_URL = "https://api.asi1.ai/v1/chat/completions"
 ASI1_MODEL = "asi1-mini"
@@ -240,8 +239,8 @@ def get_team_matches(team_id, limit=10):
     headers = {'X-Auth-Token': FOOTBALL_API_KEY}
     url = f"{FOOTBALL_API_URL}/teams/{team_id}/matches"
     
-    # Get both finished and scheduled matches, with a larger limit
-    # so we can get a mix of both types
+    
+    
     params = {
         'limit': limit,
         'status': 'FINISHED,SCHEDULED'  # Get both finished and upcoming matches
