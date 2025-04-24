@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Soccer Stats</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        
+        nav {
+            background-color: #282c34;
+            padding: 15px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            justify-content: center;
+            gap: 30px;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 16px;
+            transition: color 0.3s;
+        }
+        
+        nav a:hover {
+            color: #61dafb;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 30px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        
+        h1 {
+            color: #282c34;
+            margin-bottom: 30px;
+            font-size: 28px;
+        }
+        
+        .welcome-message {
+            font-size: 18px;
+            margin-bottom: 30px;
+            color: #555;
+        }
+        
+        .username {
+            font-weight: bold;
+            color: #61dafb;
+        }
+        
+        .dashboard-section {
+            margin-top: 40px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            text-align: left;
+        }
+        
+        .dashboard-card {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        
+        .dashboard-card h3 {
+            color: #282c34;
+            margin-top: 0;
+        }
+        
+        .logout-button {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            font-size: 14px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .logout-button:hover {
+            background-color: #c0392b;
+        }
+        
+        /* Add styling for team and match lists */
+        .team-list, .match-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .team-list li, .match-list li {
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .match-list li small {
+            display: block;
+            color: #777;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/logout" class="logout-button">Logout</a></li>
+            <li><a href="/team" class="logout-button">Add your team</a></li>
+        </ul>
+    </nav>
+    
+    <div class="container">
+        <h1>Dashboard</h1>
+        <p class="welcome-message">Welcome back, <span class="username">{{ username }}</span>!</p>
+        
+        <div class="dashboard-section">
+            <div class="dashboard-card">
+                <h3>Soccer Chatbot</h3>
+                <p>Have questions about soccer? Get answers from our AI assistant!</p>
+                <a href="/ask_chatbot" class="btn">Ask the Chatbot</a>
+            </div>
+            <div class="dashboard-card">
+                <h3>Your Teams</h3>
+                {% if user_teams %}
+                    <ul class="team-list">
+                        {% for team in user_teams %}
+                        <li>
+                            <a href="/get_team/{{ team.id }}">{{ team.team_name }}</a>
+                            <small>{{ team.country }}</small>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>You haven't added any teams yet. <a href="/team">Add a team</a></p>
+                {% endif %}
+            </div>
+
+            <!-- Recent Matches with scores -->
+            <div class="dashboard-card">
+                <h3>Recent Matches</h3>
+                {% if dashboard_data and dashboard_data.recent_matches %}
+                    <ul class="match-list">
+                        {% for match in dashboard_data.recent_matches %}
+                            <li>
+                                <span>{{ match.homeTeam.name }}</span>
+                                {% if match.status == 'FINISHED' %}
+                                    {{ match.score.fullTime.homeTeam }} - {{ match.score.fullTime.awayTeam }}
+                                {% else %}
+                                    vs
+                                {% endif %}
+                                <span>{{ match.awayTeam.name }}</span>
+                                <small>{{ match.utcDate }}</small>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>No recent matches available.</p>
+                {% endif %}
+            </div>
+            <div class="dashboard-card">
+                <h3>Top Competitions</h3>
+                <ul>
+                    <li><a href="/competition_scorers/PL">Premier League Top Scorers</a></li>
+                    <li><a href="/competition_scorers/PD">La Liga Top Scorers</a></li>
+                    <li><a href="/competition_scorers/BL1">Bundesliga Top Scorers</a></li>
+                    <li><a href="/competition_scorers/SA">Serie A Top Scorers</a></li>
+                    <li><a href="/competition_scorers/FL1">Ligue 1 Top Scorers</a></li>
+                </ul>
+            </div>
+            <!-- Upcoming Fixtures -->
+            <div class="dashboard-card">
+                <h3>Upcoming Fixtures</h3>
+                {% if dashboard_data and dashboard_data.upcoming_matches %}
+                    <ul class="match-list">
+                        {% for match in dashboard_data.upcoming_matches %}
+                            <li>
+                                <span>{{ match.homeTeam.name }}</span>
+                                vs
+                                <span>{{ match.awayTeam.name }}</span>
+                                <small>{{ match.utcDate }}</small>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>No upcoming fixtures available.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</body>
+</html>

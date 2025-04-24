@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ team.team_name }} - Soccer Stats</title>
+    <!-- Same CSS as your dashboard -->
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/dashboard">Dashboard</a></li>
+            <li><a href="/logout" class="logout-button">Logout</a></li>
+        </ul>
+    </nav>
+    
+    <div class="container">
+        <h1>{{ team.team_name }}</h1>
+        <p>Country: {{ team.country }}</p>
+        
+        <!-- Team Information -->
+        {% if team_info %}
+        <div class="team-info">
+            <h2>Team Information</h2>
+            <p>Founded: {{ team_info.founded }}</p>
+            <p>Venue: {{ team_info.venue }}</p>
+            <!-- Add more info as needed -->
+        </div>
+        {% endif %}
+        
+        <!-- Recent Matches -->
+        {% if recent_matches %}
+        <div class="recent-matches">
+            <h2>Recent & Upcoming Matches</h2>
+            <ul>
+                {% for match in recent_matches.matches %}
+                <li>
+                    <span>{{ match.homeTeam.name }}</span>
+                    {% if match.status == 'FINISHED' %}
+                        {{ match.score.fullTime.homeTeam }} - {{ match.score.fullTime.awayTeam }}
+                    {% else %}
+                        vs
+                    {% endif %}
+                    <span>{{ match.awayTeam.name }}</span>
+                    <small>{{ match.utcDate }}</small>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+        
+        <!-- League Standings -->
+        {% if standings %}
+        <div class="standings">
+            <h2>League Standings</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Position</th>
+                        <th>Team</th>
+                        <th>Points</th>
+                        <th>W</th>
+                        <th>D</th>
+                        <th>L</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for standing in standings.standings[0].table %}
+                    <tr>
+                        <td>{{ standing.position }}</td>
+                        <td>{{ standing.team.name }}</td>
+                        <td>{{ standing.points }}</td>
+                        <td>{{ standing.won }}</td>
+                        <td>{{ standing.draw }}</td>
+                        <td>{{ standing.lost }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>

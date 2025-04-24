@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soccer Stats</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        .App {
+            text-align: center;
+        }
+        .App-header {
+            background-color: #282c34;
+            min-height: 50vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            padding: 20px;
+        }
+        .logo-container {
+            margin-bottom: 20px;
+        }
+        .soccer-ball {
+            width: 80px;
+            height: 80px;
+            background-color: white;
+            border-radius: 50%;
+            position: relative;
+            overflow: hidden;
+        }
+        .soccer-ball::before {
+            content: "";
+            position: absolute;
+            background-image: radial-gradient(circle, transparent 0%, transparent 45%, black 45%, black 55%, transparent 55%);
+            width: 100%;
+            height: 100%;
+        }
+        .title {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+        }
+        .get-started-btn {
+            background-color: #61dafb;
+            color: #282c34;
+            border: none;
+            padding: 12px 24px;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .features-section {
+            display: flex;
+            justify-content: space-around;
+            padding: 40px 20px;
+            flex-wrap: wrap;
+        }
+        .feature {
+            flex: 1;
+            min-width: 250px;
+            max-width: 300px;
+            margin: 20px;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .feature-icon {
+            font-size: 36px;
+            margin-bottom: 15px;
+        }
+        .feature h3 {
+            margin-bottom: 10px;
+        }
+        .auth-options {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .auth-link {
+            text-decoration: none;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="App">
+        <header class="App-header">
+            <div class="logo-container">
+                <div class="soccer-ball"></div>
+            </div>
+            <h1 class="title">Welcome to Soccer Stats</h1>
+            <p class="subtitle">Your Football AI Assistant at your fingertips!</p>
+            <button class="get-started-btn">Get Started</button>
+            
+            <div class="auth-options">
+                <a href="/register" class="auth-link">Sign up</a>
+                <a href="/login" class="auth-link">Login</a>
+            </div>
+        </header>
+        <div class="features-section">
+            <div class="feature">
+                <div class="feature-icon">📊</div>
+                <h3>Live Statistics</h3>
+                <p>Real-time match stats and player performance metrics</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">🏆</div>
+                <h3>Tournament Tracking</h3>
+                <p>Follow your favorite leagues and championships</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">🤖</div>
+                <h3>AI analysis</h3>
+                <p>Advanced analytics and match outcome forecasts</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

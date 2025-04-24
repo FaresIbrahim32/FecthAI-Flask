@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Top Scorers - Soccer Stats</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        
+        nav {
+            background-color: #282c34;
+            padding: 15px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            justify-content: center;
+            gap: 30px;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 16px;
+            transition: color 0.3s;
+        }
+        
+        nav a:hover {
+            color: #61dafb;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 30px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            color: #282c34;
+            margin-bottom: 30px;
+            font-size: 28px;
+            text-align: center;
+        }
+        
+        .scorers-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        .scorers-table th {
+            background-color: #f8f9fa;
+            padding: 12px;
+            text-align: left;
+            border-bottom: 2px solid #ddd;
+        }
+        
+        .scorers-table td {
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .scorers-table tr:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .back-button {
+            display: inline-block;
+            margin-top: 20px;
+            background-color: #61dafb;
+            color: #282c34;
+            padding: 10px 15px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        
+        .back-button:hover {
+            background-color: #4fa8d1;
+        }
+        
+        .error {
+            color: #e74c3c;
+            background-color: #fadbd8;
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+        
+        .player-team {
+            color: #666;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/dashboard">Dashboard</a></li>
+            <li><a href="/logout">Logout</a></li>
+        </ul>
+    </nav>
+    
+    <div class="container">
+        <h1>Top Scorers</h1>
+        
+        {% if error %}
+            <div class="error">{{ error }}</div>
+        {% endif %}
+        
+        {% if scorers_data and scorers_data.scorers %}
+            <p>Competition: <strong>{{ scorers_data.competition.name }}</strong></p>
+            <p>Season: {{ scorers_data.season.startDate }} to {{ scorers_data.season.endDate }}</p>
+            
+            <table class="scorers-table">
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Player</th>
+                        <th>Team</th>
+                        <th>Goals</th>
+                        <th>Assists</th>
+                        <th>Penalties</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for scorer in scorers_data.scorers %}
+                        <tr>
+                            <td>{{ loop.index }}</td>
+                            <td>
+                                {{ scorer.player.name }}
+                                {% if scorer.player.nationality %}
+                                    <small>({{ scorer.player.nationality }})</small>
+                                {% endif %}
+                            </td>
+                            <td>{{ scorer.team.name }}</td>
+                            <td>{{ scorer.goals }}</td>
+                            <td>{{ scorer.assists|default('N/A') }}</td>
+                            <td>{{ scorer.penalties|default('N/A') }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No scorers data available for this competition.</p>
+        {% endif %}
+        
+        <a href="/dashboard" class="back-button">Back to Dashboard</a>
+    </div>
+</body>
+</html>
